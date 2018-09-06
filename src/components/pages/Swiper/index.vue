@@ -5,9 +5,15 @@
             :showBottomDotted="true"
             :showArrowButton="true"
         >
-            <SwiperItem>1</SwiperItem>
-            <SwiperItem>2</SwiperItem>
-            <SwiperItem>3</SwiperItem>
+            <SwiperItem>
+                <div style="background-color: #e9e9ad; width: 100%; height: 100%;"></div>
+            </SwiperItem>
+            <SwiperItem>
+                <div style="background-color: #151342; width: 100%; height: 100%;"></div>
+            </SwiperItem>
+            <SwiperItem>
+                <div style="background-color: #d64040; width: 100%; height: 100%;"></div>
+            </SwiperItem>
         </Swiper>
     </div>
 </template>

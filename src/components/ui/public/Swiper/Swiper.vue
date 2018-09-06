@@ -7,7 +7,7 @@
             <div class="swiper-item bg3"></div> -->
         </div>
         <div class="dot-wrap" ref="dotWrap" v-if="showBottomDotted">
-            <div class="dot" v-for="(item, index) in dotLen" :key="index"></div>
+            <div class="dot" v-for="(item, index) in dotLen" :key="index" @click="clickDot(index)"></div>
         </div>
         <div class="arrow-wrap left" ref="leftBtn" @click="prev" v-if="showArrowButton">
             <div class="inAr"></div>
@@ -186,6 +186,12 @@
                         this.play();
                     }
                 }, false);
+            },
+            clickDot(index) {
+                const selectedDom = this.domWrap.children[index + 1];
+                this.currentIndex = index + 1;
+                this.setDot();
+                this.resetTransform(`-${this.domWidth * (index + 1)}`);
             }
         },
         props: {
@@ -254,6 +260,7 @@
             border-radius: 50%;
             background: #fff;
             margin: 0 5px;
+            cursor: pointer;
 
             &.on {
                 background: #007fff;
@@ -269,6 +276,7 @@
         background: rgba(255, 255, 255, 0.5);
         transform: translate3d(0, -50%, 0);
         transition: all 0.5s ease-in-out;
+        cursor: pointer;
         &:hover {
             .inAr{
                 border-color: #007fff;
