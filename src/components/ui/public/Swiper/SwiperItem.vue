@@ -1,6 +1,6 @@
 <template>
     <div class="swiper-item">
-        <img src="http://oxzz0e76z.bkt.clouddn.com/1_H2IdmDZkc-S3SoM71J-v2w.jpeg" />
+        <slot></slot>
     </div>
 </template>
 

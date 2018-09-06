@@ -1,6 +1,6 @@
 <template>
     <div class="home-container">
-        <h2>vue-stack</h2>
+        <h2>vue-stacks</h2>
         <ul>
             <li>轮播图</li>
         </ul>

@@ -1,6 +1,14 @@
 <template>
     <div class="swiper-area">
-        <Swiper />
+        <Swiper 
+            :autoplay="true"
+            :showBottomDotted="true"
+            :showArrowButton="true"
+        >
+            <SwiperItem>1</SwiperItem>
+            <SwiperItem>2</SwiperItem>
+            <SwiperItem>3</SwiperItem>
+        </Swiper>
     </div>
 </template>
 

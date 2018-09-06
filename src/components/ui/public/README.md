@@ -11,6 +11,7 @@
     :showBottomDotted="false"
     :delay="4000"
     :defaultIndex="1"
+    :forward="true"
 >
     <SwiperItem>content1</SwiperItem>
     <SwiperItem>content2</SwiperItem>
@@ -25,3 +26,4 @@
 | showBottomDotted | false | 是否显示 |
 | delay | 4000 | 延迟 |
 | defaultIndex | 1 | 默认初始化显示的页数 |
+| forward | true | true:向右 false: 向左 |
