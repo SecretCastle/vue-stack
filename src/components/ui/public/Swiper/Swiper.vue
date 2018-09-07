@@ -41,7 +41,7 @@
                 const last = this.domWrap.children[this.domLen - 1].cloneNode(true);
                 this.domWrap.insertBefore(last, this.domWrap.children[0]);
                 this.domWrap.appendChild(first);
-                this.domWrap.style.transform = `translate3d(-${this.domWidth}px, 0, 0)`;
+                this.domWrap.style.transform = `translate3d(-${this.domWidth * this.currentIndex}px, 0, 0)`;
                 this.timer = 300;
                 this.intev = 10;
                 this.timeoutTimer = null;

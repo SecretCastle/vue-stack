@@ -4,6 +4,7 @@
             :autoplay="true"
             :showBottomDotted="true"
             :showArrowButton="true"
+            :defaultIndex="2"
         >
             <SwiperItem>
                 <div style="background-color: #e9e9ad; width: 100%; height: 100%;"></div>
