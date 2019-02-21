@@ -4,5 +4,6 @@ export default {
     preload: 'auto',
     loop: false,
     height: 500,
-    poster: 'http://qiniu.pic.ineet.cn/image/jpg/blog-bg.jpg'
+    poster: 'http://qiniu.media.ineet.cn/images/jpg/DSC_0629.JPG',
+    fullscreen: false
 }

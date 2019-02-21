@@ -16,7 +16,7 @@ const breakPointDom = (h, that) => {
     return (
         <div class="custome-dom">
             <div class="custome-dom-buttons">
-                <button class="custome-dom-buttons-cancel" onClick={cancel}>取消播放</button>
+                <button class="custome-dom-buttons-cancel" onClick={cancel}>重新播放</button>
                 <button class="custome-dom-buttons-continue" onClick={continuePlay}>继续播放</button>
             </div>
         </div>
@@ -29,7 +29,8 @@ export default {
             _options: {},
             breakpointTimer: null,
             showBreakPointDom: false,
-            hasBreak: false
+            hasBreak: false,
+            playedTime: 0
         }
     },
     props: {
@@ -41,21 +42,13 @@ export default {
         url: {
             type: Array,
             required: false,
-            default: () => ([
-                {
-                    type: 'video/mp4',
-                    src: 'http://qiniu.pic.ineet.cn/video/oceans.mp4'
-                },
-                {
-                    type: 'video/webm',
-                    src: 'http://qiniu.pic.ineet.cn/video/oceans.webm'
-                }
-            ])
+            default: () => ([])
         },
         breakpoint: {
             type: Number,
             default: 0
-        }
+        },
+        poster: String
     },
     methods: {
         /**
@@ -65,7 +58,12 @@ export default {
             // 初始化
             if (this.$el) {
                 this._options = Object.assign({}, defaultOptions, this.options);
+                // 实例化对象
                 this.iVideojs = videojs(this.$refs.videoRef, this._options);
+                // 设置第一针封面
+                if (this.poster) {
+                    this.iVideojs.poster(this.poster);
+                }
                 // 抛出ivideo实例对象
                 this.$emit('iVideoJS', this.iVideojs);
                 // 绑定ready
@@ -78,29 +76,41 @@ export default {
         initEvent() {
             // 监听play事件
             this.iVideojs.on('play', this.onPlay);
+            // 监听暂停事件
             this.iVideojs.on('pause', this.onPause);
+            // 监听播放完成事件
+            this.iVideojs.on('ended', this.onEnded);
         },
         // play 事件
         onPlay() {
             this.showBreakPointDom = false;
             // 存在断点并且未断点
             if (this.breakpoint !==0 && !this.hasBreak) {
-                clearTimeout(this.breakpointTimer);
-                this.breakpointTimer = setTimeout(() => {
-                    // 暂停
-                    this.iVideojs.pause();
-                    // this.iVideojs.reset();
-                    // 现实dom
-                    this.showBreakPointDom = true;
-                    // 第一次break;
-                    this.hasBreak = true;
-                }, this.breakpoint);
+                if (this.breakpoint - this.playedTime > 0) {
+                    clearTimeout(this.breakpointTimer);
+                    this.breakpointTimer = setTimeout(() => {
+                        // 暂停
+                        this.iVideojs.pause();
+                        // 现实dom
+                        this.showBreakPointDom = true;
+                        // 第一次break;
+                        this.hasBreak = true;
+                    }, this.breakpoint - this.playedTime);
+                }
             }
         },
+        // 暂停事件
         onPause() {
             if (this.breakpoint !== 0 && !this.hasBreak) {
+                // 保存点击暂停时间
                 const stopTime = this.iVideojs.currentTime();
-                
+                this.playedTime = stopTime * 1000;
+            }
+        },
+        // 播放完成事件
+        onEnded() {
+            if (this.breakpointTimer !== null) {
+                clearTimeout(this.breakpointTimer);
             }
         }
     },
@@ -108,8 +118,11 @@ export default {
         this.initVideo();
     },
     beforeDestroy() {
+        // 销毁前初始化参数
         this.iVideojs = null;
         delete this.iVideojs;
+        this.hasBreak = false;
+        this.playedTime = 0;
     },
     watch: {
         /**
@@ -122,6 +135,17 @@ export default {
                     // 替换视频源
                     this.iVideojs.src(item);
                 });
+                this.showBreakPointDom = false;
+                this.hasBreak = false;
+                this.initEvent();
+            }
+        },
+        /** 
+         * 监听封面针变化，video对象中替换封面针
+        */
+        poster(newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.iVideojs.poster(newVal);
             }
         }
     },
@@ -156,7 +180,6 @@ export default {
                             this.$slots.default && this.$slots.default[0] ? this.$slots.default[0] : breakPointDom(h, this)
                         }
                     </div>
-                    
                 }
             </div>
             
@@ -175,6 +198,10 @@ export default {
         top: 50% !important;
         margin-left: -1.5em;
         margin-top: -0.75em;
+    }
+    // 默认屏蔽全屏按钮
+    .vjs-fullscreen-control {
+        display: none;
     }
 }
 .video-modal {

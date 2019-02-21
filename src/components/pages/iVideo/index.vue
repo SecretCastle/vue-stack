@@ -4,7 +4,18 @@ import iVideo from '@/components/ui/public/iVideo';
 export default {
     data() {
         return {
-            videoJS: null
+            videoJS: null,
+            url: [
+                {
+                    type: 'video/mp4',
+                    src: 'http://qiniu.pic.ineet.cn/video/oceans.mp4'
+                },
+                {
+                    type: 'video/webm',
+                    src: 'http://qiniu.pic.ineet.cn/video/oceans.webm'
+                }
+            ],
+            poster: 'http://qiniu.media.ineet.cn/images/jpg/DSC_1348.JPG'
         }
     },
     components: {
@@ -27,9 +38,16 @@ export default {
     },
     render(h) {
         return(
-            <iVideo 
-                breakpoint={10000}
+            <iVideo
+                breakpoint={5000}
                 onIVideoJS={this.getInstance}
+                url={this.url}
+                options={
+                    {
+                        width: '1200px'
+                    }
+                }
+                poster={this.poster}
             >
                 <div class="button-area">
                     <button onClick={this.clickFn}>click me</button>
