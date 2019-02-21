@@ -1,0 +1,7 @@
+#toolbar .ql-font span[data-label="Roman"]::before {
+    content: 'Times New Roman';
+    font-family: 'Times New Roman', Times, serif;
+}
+.ql-font-roman {
+    font-family: 'Times New Roman', Times, serif;
+}

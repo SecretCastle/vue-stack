@@ -2,6 +2,8 @@
     <div class="main-container">
         <router-link to="/">首页</router-link>
         <router-link to="/swiper">轮播图</router-link>
+        <router-link to="/editor">富文本编辑器</router-link>
+        <router-link to="/video">iVideo</router-link>
         <transition name="slide-left">
             <div class="display-area">
                 <router-view />
