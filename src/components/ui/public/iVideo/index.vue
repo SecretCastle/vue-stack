@@ -48,7 +48,8 @@ export default {
             type: Number,
             default: 0
         },
-        poster: String
+        poster: String,
+        autoplay: Boolean
     },
     methods: {
         /**
@@ -57,6 +58,9 @@ export default {
         initVideo() {
             // 初始化
             if (this.$el) {
+                if (this.autoplay) {
+                    defaultOptions.muted = true;
+                }
                 this._options = Object.assign({}, defaultOptions, this.options);
                 // 实例化对象
                 this.iVideojs = videojs(this.$refs.videoRef, this._options);
@@ -70,6 +74,9 @@ export default {
                 this.iVideojs.ready(() => {
                     // 监听事件
                     this.initEvent();
+                    if (this.autoplay) {
+                        this.iVideojs.play();
+                    }
                 });
             }
         },
@@ -138,6 +145,9 @@ export default {
                 this.showBreakPointDom = false;
                 this.hasBreak = false;
                 this.initEvent();
+                if (this.autoplay) {
+                    this.iVideojs.play();
+                }
             }
         },
         /** 
@@ -151,7 +161,7 @@ export default {
     },
     render(h) {
         return (
-            <div class="video-dom">
+            <div class="i-video-dom">
                 <video 
                     ref="videoRef"
                     id="my_video_1" 
@@ -189,7 +199,7 @@ export default {
 </script>
 
 <style lang="less">
-.video-dom {
+.i-video-dom {
     position: relative;
 }
 .video-js {
